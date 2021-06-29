@@ -16,7 +16,7 @@ def normalize_data(metric, value):
     elif metric == 1:  # rfc
         min = 0
         max = 200
-    elif metric == 2:  # lcom
+    elif metric == 2:  # lcom #provjeritiiiiiiiiiiiiiiiiiiiiiiiiiiiiii treba li za ovooooooooo
         min = 0
         max = 2
     elif metric == 5:  # noch
@@ -72,13 +72,17 @@ def print_hi():
             handle_data(data)
             data.dropna(1, 'all', inplace=True)  # drop kolone u kojima je svaka vrijednost NaN
             si = SimpleImputer(strategy='mean')
+            # print(data)
             data.loc[:, 'dit'] = si.fit_transform(data.loc[:, 'dit'].values.reshape(-1, 1))
             data.loc[:, 'rfc'] = si.fit_transform(data.loc[:, 'rfc'].values.reshape(-1, 1))
-            data.loc[:, 'lcom'] = si.fit_transform(data.loc[:, 'lcom'].values.reshape(-1, 1))
-            data.loc[:, 'mhf'] = si.fit_transform(data.loc[:, 'mhf'].values.reshape(-1, 1))
-            data.loc[:, 'ahf'] = si.fit_transform(data.loc[:, 'ahf'].values.reshape(-1, 1))
+            if data.columns.__contains__('lcom'):
+                data.loc[:, 'lcom'] = si.fit_transform(data.loc[:, 'lcom'].values.reshape(-1, 1))
+            if data.columns.__contains__('mhf'):
+                data.loc[:, 'mhf'] = si.fit_transform(data.loc[:, 'mhf'].values.reshape(-1, 1))
+            if data.columns.__contains__('ahf'):
+                data.loc[:, 'ahf'] = si.fit_transform(data.loc[:, 'ahf'].values.reshape(-1, 1))
             data.loc[:, 'noch'] = si.fit_transform(data.loc[:, 'noch'].values.reshape(-1, 1))
-
+            # print(data)
             data = data.mean(0)
             print(data.to_numpy())
             with open(join(path, 'dataset.csv'), 'a') as file1:
