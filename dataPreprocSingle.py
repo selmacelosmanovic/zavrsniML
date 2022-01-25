@@ -53,18 +53,18 @@ float_formatter = "{:.3f}".format
 
 
 def preprocess():
-    path = input("Unesite putanju do direktorija sa projektima: ")
+    path = input("Unesite putanju do direktorija sa projektom: ")
 
     folders = os.listdir(path)
     with open(join(path, 'dataFinal.csv'), 'w', newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["dit", "rfc", "lcom", "mhf", "ahf", "noch", "points"])
+        writer.writerow(["dit", "rfc", "lcom", "mhf", "ahf", "noch"])
 
     i = 0
     for f in folders:
         if not isfile(join(path, f)):  # da dobijem sve foldere
             projectCSVPath = join(join(path, folders[i]), "class.csv")
-            # print(projectCSVPath)
+            print(projectCSVPath)
             data = pd.read_csv(projectCSVPath)
             data.drop('file', axis='columns', inplace=True)
             data.drop('class', axis='columns', inplace=True)
@@ -88,7 +88,6 @@ def preprocess():
                 file1.write(','.join(map(str, data.to_numpy())))
                 file1.write("\n")
             i = i + 1
-    print("Izvrseno preprocesiranje!")
 
 
 preprocess()

@@ -5,13 +5,15 @@ from keras import models
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv('C:/Users/selma/OneDrive/Desktop/data/dataset.csv', sep=',')
+pathDataset = input("Unesite putanju do direktorija sa preprocesiranim datasetom kojem su dodijeljeni bodovi"
+                    " (ukljucujuci i nazivDataseta.csv): ")
+pathModelSave = input("Unesite putanju direktorija gdje zelite spasiti model: ")
+
+data = pd.read_csv(pathDataset, sep=',')
 y = data.points
-# print(y)
 
 X = data.copy(deep=True)
 X.drop(columns=['points'], inplace=True)
-# print(X)
 
 X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 print(X_train)
@@ -37,7 +39,7 @@ print("Gubitak je: ", loss_values)
 epochs = range(1, len(mae) + 1)
 
 plt.plot(epochs, loss_values, 'yo', label='Training loss')
-plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
+plt.plot(epochs, val_loss_values, 'c', label='Validation loss')
 plt.title('Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
@@ -47,6 +49,6 @@ plt.show()
 results = model.evaluate(X_test, Y_test)  # results su test_loss i test_acc
 print("Rezultati: ", results)
 
-model.save('C:/Users/selma/OneDrive/Desktop/ETF/3. Godina/6. Semestar/Završni rad/model')
+model.save(pathModelSave)
 
 
